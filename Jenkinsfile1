@@ -1,0 +1,14 @@
+pipeline{
+    agent any
+    stages{
+        stage ("Building Docker Image"){
+            docker build -f files/Dockerfile -t testimage:latest
+        }
+        stage ("Tag Image and Push"){
+            docker tag testimage:latest realmisterpotato/testimage:latest
+        }
+        stage ("Deploy with Ansible"){
+            echo 'Deploy with ansible'
+        }
+    }
+}

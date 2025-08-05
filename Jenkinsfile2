@@ -1,0 +1,14 @@
+pipeline{
+    agent Any
+    stages{
+        stage ("Building Docker Image"){
+            docker build $DOCKERFILE -t $IMAGENAME:$TAGNAME
+        }
+        stage ("Tag Image and Push"){
+            docker tag $IMAGENAME:$TAGNAME $ACCOUNTNAME/$IMAGENAME:$TAGNAME
+        }
+        stage ("Deploy with Ansible"){
+            ansible-playbook -i hosts.ini $PLAYBOOK
+        }
+    }
+}
