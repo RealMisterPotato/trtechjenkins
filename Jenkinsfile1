@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage ("Building Docker Image"){
             steps{
-                sh "docker build -f 'files/Dockerfile' -t 'testimage:latest'"
+                sh "docker build . -f 'files/Dockerfile' -t 'testimage:latest'"
             }
         }
         stage ("Tag Image and Push"){
