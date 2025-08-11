@@ -3,12 +3,12 @@ pipeline{
     stages{
         stage ("Building Docker Image"){
             steps{
-                docker build -f 'files/Dockerfile' -t 'testimage:latest'
+                sh "docker build -f 'files/Dockerfile' -t 'testimage:latest'"
             }
         }
         stage ("Tag Image and Push"){
             steps{
-                docker tag 'testimage:latest' 'realmisterpotato/testimage:latest'
+                sh "docker tag 'testimage:latest' 'realmisterpotato/testimage:latest'"
             }
         }
         stage ("Deploy with Ansible"){
