@@ -6,12 +6,12 @@ pipeline{
     stages{
         stage ("Building Docker Image"){
             steps{
-                sh "docker build . -f 'files/$params.CHOSEN_SERVICE' -t 'testimage_$params.CHOSEN_SERVICE:latest'"
+                sh "sudo docker build . -f 'files/Dockerfile_$params.CHOSEN_SERVICE' -t 'testimage_$params.CHOSEN_SERVICE:latest'"
             }
         }
         stage ("Tag Image and Push"){
             steps{
-                sh "docker tag 'testimage_$params.CHOSEN_SERVICE:latest' 'realmisterpotato/testimage_$params.CHOSEN_SERVICE:latest'"
+                sh "sudo docker tag 'testimage_$params.CHOSEN_SERVICE:latest' 'realmisterpotato/testimage_$params.CHOSEN_SERVICE:latest'"
             }
         }
         stage ("Deploy with Ansible"){
