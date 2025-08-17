@@ -1,14 +1,23 @@
 pipeline{
-    agent Any
+    agent any
+    parameters{
+        choice(name: "CHOSEN_SERVICE", choices: ["service1", "service2"])
+    }
     stages{
         stage ("Building Docker Image"){
-            docker build $DOCKERFILE -t $IMAGENAME:$TAGNAME
+            steps{
+                sh "docker build . -f 'files/$params.CHOSEN_SERVICE' -t 'testimage_$params.CHOSEN_SERVICE:latest'"
+            }
         }
         stage ("Tag Image and Push"){
-            docker tag $IMAGENAME:$TAGNAME $ACCOUNTNAME/$IMAGENAME:$TAGNAME
+            steps{
+                sh "docker tag 'testimage_$params.CHOSEN_SERVICE:latest' 'realmisterpotato/testimage_$params.CHOSEN_SERVICE:latest'"
+            }
         }
         stage ("Deploy with Ansible"){
-            ansible-playbook -i hosts.ini $PLAYBOOK
+            steps{
+                echo 'Deploy with ansible'
+            }
         }
     }
 }
